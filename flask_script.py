@@ -37,7 +37,7 @@ def index():
                 temp.append(hourly_dict["temp_f"])
                 hum.append(hourly_dict["humidity"])
         return temp, hum
-        
+
     phoenix_temp, phoenix_hum = getTempHum(phoenix_json)
 
     fig = Figure()
@@ -46,11 +46,13 @@ def index():
     axs1.set(xlabel="Hours", ylabel="Temp in Fahrenheit", title="Temp In Phoenix")
     axs2.plot(list(range(24*14)), phoenix_hum, "-.", color="cornflowerblue")
     axs2.set(xlabel="Hours", ylabel="Humidity",  title="Humidity In Phoenix")
+    fig.set_figheight(5)
+    fig.set_figwidth(15)
     fig.tight_layout()
     buf = io.BytesIO()
     fig.savefig(buf, format="png")
     data = base64.b64encode(buf.getbuffer()).decode("ascii")
-    response1 = f"<img src='data:image/png;base64,{data}' height='640' width='960'/>\n"
+    response1 = f"<img src='data:image/png;base64,{data}'/>\n"
 
 
     sf_temp, sf_hum = getTempHum(sf_json)
@@ -60,11 +62,13 @@ def index():
     axs1.set(xlabel="Hours", ylabel="Temp in Fahrenheit", title="Temp In SF")
     axs2.plot(list(range(24*14)), sf_hum, "-.", color="cornflowerblue")
     axs2.set(xlabel="Hours", ylabel="Humidity",  title="Humidity In SF")
+    fig.set_figheight(5)
+    fig.set_figwidth(15)
     fig.tight_layout()
     buf = io.BytesIO()
     fig.savefig(buf, format="png")
     data = base64.b64encode(buf.getbuffer()).decode("ascii")
-    response2 = f"<img src='data:image/png;base64,{data}' height='640' width='960'/>\n"
+    response2 = f"<img src='data:image/png;base64,{data}'/>\n"
 
     dallas_temp, dallas_hum = getTempHum(dallas_json)
     fig = Figure()
@@ -73,11 +77,13 @@ def index():
     axs1.set(xlabel="Hours", ylabel="Temp in Fahrenheit", title="Temp In Dallas")
     axs2.plot(list(range(24*14)), dallas_hum, "-.", color="cornflowerblue")
     axs2.set(xlabel="Hours", ylabel="Humidity",  title="Humidity In Dallas")
+    fig.set_figheight(5)
+    fig.set_figwidth(15)
     fig.tight_layout()
     buf = io.BytesIO()
     fig.savefig(buf, format="png")
     data = base64.b64encode(buf.getbuffer()).decode("ascii")
-    response3 = f"<img src='data:image/png;base64,{data}' height='640' width='960'/>"
+    response3 = f"<img src='data:image/png;base64,{data}'/>"
 
     return response1 + response2 + response3
 
