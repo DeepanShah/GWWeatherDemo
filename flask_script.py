@@ -16,8 +16,8 @@ def index():
 
     API_KEY = os.getenv("API_KEY")
 
-    time_now = str(date.today())
-    time_before = str(date.today() - datetime.timedelta(weeks=2))
+    time_now = str(date.today() - datetime.timedelta(days=1))
+    time_before = str(date.today() - datetime.timedelta(days=8))
 
     phoenix_response = requests.get(f'http://api.weatherapi.com/v1/history.json?key={API_KEY}&q=Phoenix&dt={time_before}&end_dt={time_now}')
     phoenix_json = phoenix_response.json()
@@ -31,7 +31,7 @@ def index():
     def getTempHum(json_file):
         temp = []
         hum = []
-        for i in range(14):
+        for i in range(7):
             for j in range(24):
                 hourly_dict = json_file["forecast"]["forecastday"][i]["hour"][j]
                 temp.append(hourly_dict["temp_f"])
@@ -42,9 +42,9 @@ def index():
 
     fig = Figure()
     (axs1, axs2) = fig.subplots(1,2)
-    axs1.plot(list(range(24*14)), phoenix_temp, "-.", color="firebrick")
-    axs1.set(xlabel="Hours", ylabel="Temp in Fahrenheit", title="Temp In Phoenix")
-    axs2.plot(list(range(24*14)), phoenix_hum, "-.", color="cornflowerblue")
+    axs1.plot(list(range(24*7)), phoenix_temp, "-.", color="firebrick")
+    axs1.set(xlabel="Hours", ylabel="Degrees Fahrenheit", title="Temperature In Phoenix")
+    axs2.plot(list(range(24*7)), phoenix_hum, "-.", color="cornflowerblue")
     axs2.set(xlabel="Hours", ylabel="Humidity",  title="Humidity In Phoenix")
     fig.set_figheight(5)
     fig.set_figwidth(15)
@@ -58,9 +58,9 @@ def index():
     sf_temp, sf_hum = getTempHum(sf_json)
     fig = Figure()
     (axs1, axs2) = fig.subplots(1,2)
-    axs1.plot(list(range(24*14)), sf_temp, "-.", color="firebrick")
-    axs1.set(xlabel="Hours", ylabel="Temp in Fahrenheit", title="Temp In SF")
-    axs2.plot(list(range(24*14)), sf_hum, "-.", color="cornflowerblue")
+    axs1.plot(list(range(24*7)), sf_temp, "-.", color="firebrick")
+    axs1.set(xlabel="Hours", ylabel="Degrees Fahrenheit", title="Temperature In SF")
+    axs2.plot(list(range(24*7)), sf_hum, "-.", color="cornflowerblue")
     axs2.set(xlabel="Hours", ylabel="Humidity",  title="Humidity In SF")
     fig.set_figheight(5)
     fig.set_figwidth(15)
@@ -73,9 +73,9 @@ def index():
     dallas_temp, dallas_hum = getTempHum(dallas_json)
     fig = Figure()
     (axs1, axs2) = fig.subplots(1,2)
-    axs1.plot(list(range(24*14)), dallas_temp, "-.", color="firebrick")
-    axs1.set(xlabel="Hours", ylabel="Temp in Fahrenheit", title="Temp In Dallas")
-    axs2.plot(list(range(24*14)), dallas_hum, "-.", color="cornflowerblue")
+    axs1.plot(list(range(24*7)), dallas_temp, "-.", color="firebrick")
+    axs1.set(xlabel="Hours", ylabel="Degrees Fahrenheit", title="Temperature In Dallas")
+    axs2.plot(list(range(24*7)), dallas_hum, "-.", color="cornflowerblue")
     axs2.set(xlabel="Hours", ylabel="Humidity",  title="Humidity In Dallas")
     fig.set_figheight(5)
     fig.set_figwidth(15)
